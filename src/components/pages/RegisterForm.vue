@@ -113,7 +113,7 @@ const goForward = () => {
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  padding: 5rem 0;
+  padding: 5rem 0.5rem;
   max-width: 18rem;
   margin: auto;
 
