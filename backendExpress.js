@@ -15,14 +15,12 @@ app.use(json());
 
 app.post('/registration', (req, res) => {
   try {
-    const { nome, idade } = req.body;
+    const { nome, email, password } = req.body;
 
-    // Validação simples: verifica se os campos nome e idade estão presentes
-    if (!nome || !idade) {
-      return res.status(400).json({ error: 'Os campos nome e idade são obrigatórios' });
+    if (!nome || !email || !password) {
+      return res.status(400).json({ error: 'Os campos nome, email e password são obrigatórios' });
     }
 
-    // Se a validação passar, retorna uma resposta de sucesso mockada
     return res.status(200).json({ message: 'Dados recebidos com sucesso!', dados: req.body });
   } catch (e) {
     return res.status(500).json({ message: 'Ocorreu erro ao tentar registrar!', errors: e });
