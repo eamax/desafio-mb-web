@@ -3,11 +3,11 @@ import { onMounted, ref } from 'vue';
 import DefaultInput from '@/components/common/ui/DefaultInput.vue';
 
 const props = defineProps({
-  valuesCheckStep: Object
+  valuesCheckStep: Object,
 });
 
 const isValid = ref(false);
-const emit = defineEmits(['update:isValid', 'update:valuesCheckStep']);
+const emit = defineEmits(['update:isValid', 'update:valuesCheckStep', 'update:transformedValues']);
 
 const inputValues = ref({
   email: '',
@@ -51,6 +51,7 @@ function transformValues() {
   if (values.stepThree) {
     inputValues.value.password = values.stepThree.values.password;
   }
+  emit('update:transformedValues', inputValues.value);
 }
 
 onMounted(() => {

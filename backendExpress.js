@@ -1,11 +1,18 @@
 import express, { json } from 'express';
+import cors from 'cors';
+
 const app = express();
 const port = 3000;
 
-// Configuração para receber dados JSON no corpo das requisições
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 app.use(json());
 
-// Rota POST com validação básica
 app.post('/registration', (req, res) => {
   try {
     const { nome, idade } = req.body;

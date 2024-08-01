@@ -7,6 +7,7 @@ import IndividualStep from '@/components/stepForms/IndividualStep.vue';
 import LegalEntityStep from '../stepForms/LegalEntityStep.vue';
 import PasswordStep from '../stepForms/passwordStep.vue';
 import CheckStep from '../stepForms/CheckStep.vue';
+import { registerUser } from '@/services/RegisterService';
 
 const currentStep = ref(1);
 
@@ -40,6 +41,19 @@ const steps = ref({
     values: {}
   }
 });
+
+const transformedValues = ref({
+  email: '',
+  nome: '',
+  cpf: '',
+  dateOfBirth: '',
+  socialName: '',
+  cnpj: '',
+  companyOpeningDate: '',
+  phone: '',
+  password: ''
+});
+
 const handleStepValidation = (value) => {
   const stepName = getStepName(currentStep.value);
   steps.value[stepName].isValid = value;
@@ -50,6 +64,10 @@ const handleStepValues = (value) => {
   steps.value[stepName].values = value;
 };
 
+const handleTransformedValues = (value) => {
+  transformedValues.value = value;
+};
+
 const goBack = () => {
   if (currentStep.value > 1) {
     currentStep.value--;
@@ -58,11 +76,13 @@ const goBack = () => {
 
 const goForward = () => {
   const stepName = getStepName(currentStep.value);
-  console.log(steps.value[stepName].isValid);
   if (stepName && steps.value[stepName].isValid) {
     if (currentStep.value < 4) {
       currentStep.value++;
     }
+  }
+  if (currentStep.value === 4) {
+    registerUser(transformedValues.value);
   }
 };
 
@@ -81,7 +101,8 @@ const goForward = () => {
       <PasswordStep v-if="currentStep === 3" @update:isValid="handleStepValidation"
         @update:valuesPasswordStep="handleStepValues" />
       <CheckStep v-if="currentStep === 4" @update:isValid="handleStepValidation"
-        @update:valuesCheckStep="handleStepValues" :valuesCheckStep="steps" />
+        @update:valuesCheckStep="handleStepValues" :valuesCheckStep="steps"
+        @update:transformedValues="handleTransformedValues" />
     </div>
     <FooterForm :currentStep="currentStep" :go-back="goBack" :go-forward="goForward" />
   </main>
